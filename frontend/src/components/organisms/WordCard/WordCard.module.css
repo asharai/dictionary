@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 180px 60px 180px;
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-columns: 360px 3fr;
+  border-top: 2px solid #e5e5e5;
+}
+
+.contentContainer:last-child {
+  border-bottom: 2px solid #e5e5e5;
+}
+
+.partOfSpeech {
+  padding: 20px 0;
+  border-right: 2px solid #e5e5e5;
+  text-transform: capitalize;
+  padding-left: 180px;
+}
+
+.meanings {
+  padding: 20px 0 20px 40px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.headerWord {
+  font-size: 48px;
+  text-transform: capitalize;
+}

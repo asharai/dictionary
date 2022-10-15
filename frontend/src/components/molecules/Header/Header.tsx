@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
 export default function Header() {
   return (
     <div className={styles.container}>
-      <div>Super App</div>
+      <Link to={'/'}>Super App</Link>
       <ul className={styles.navigation}>
-        <li>Dictionary</li>
+        <Link to={'/dictionary'}>Dictionary</Link>
         <li>Cards</li>
       </ul>
     </div>

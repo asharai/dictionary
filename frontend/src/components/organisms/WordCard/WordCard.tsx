@@ -11,14 +11,23 @@ export interface ITranslatedWord {
     synonyms: string[];
     definitions: Array<{ definition: string }>;
   }>;
+  handleFindWord: (word: string) => void;
 }
 
-const createListOfItems = (title: string, listItems: string[]) => (
-  <div>
+const createListOfItems = (
+  title: string,
+  listItems: string[],
+  handleFindWord: (word: string) => void,
+) => (
+  <div className={styles.wordsListContainer}>
     <span>{title}</span>
-    <ul>
+    <ul className={styles.wordsList}>
       {listItems.map((item, idx) => (
-        <li key={`${item}-${idx}`}>{item}</li>
+        <li
+          key={`${item}-${idx}`}
+          className={styles.wordsListItem}
+          onClick={() => handleFindWord(item)}
+        >{`${item}${idx !== listItems.length - 1 ? ',' : ''}`}</li>
       ))}
     </ul>
   </div>
@@ -29,6 +38,7 @@ export const WordCard: FC<ITranslatedWord> = ({
   phonetic,
   word,
   phoneticLink,
+  handleFindWord,
 }) => {
   return (
     <div className={styles.container}>
@@ -62,9 +72,9 @@ export const WordCard: FC<ITranslatedWord> = ({
               ))}
             </ol>
             {item.antonyms.length > 0 &&
-              createListOfItems('antonyms', item.antonyms)}
+              createListOfItems('antonyms', item.antonyms, handleFindWord)}
             {item.synonyms.length > 0 &&
-              createListOfItems('synonyms', item.synonyms)}
+              createListOfItems('synonyms', item.synonyms, handleFindWord)}
           </div>
         </div>
       ))}

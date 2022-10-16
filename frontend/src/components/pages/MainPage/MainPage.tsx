@@ -10,13 +10,13 @@ function MainPage() {
 
   const [translatedWord, setTranslatedWord] = useState<ITranslatedWord>();
 
-  const handleTranslate = useCallback(async () => {
+  const handleTranslate = useCallback(async (word: string) => {
     try {
       const res = await axios({
         method: 'post',
         url: '/word',
         data: {
-          word: inputValue,
+          word: word,
         },
       });
 
@@ -29,7 +29,7 @@ function MainPage() {
     } catch {
       console.log('doesnt work');
     }
-  }, [inputValue]);
+  }, []);
 
   return (
     <div>
@@ -37,25 +37,18 @@ function MainPage() {
         <Input
           value={inputValue}
           onChange={setInputValue}
-          placeholder="Введите текст"
+          placeholder="Type a word..."
         />
-        <Button onClick={handleTranslate}>search</Button>
+        <Button onClick={() => handleTranslate(inputValue)}>search</Button>
       </div>
       {translatedWord && (
-        <div
-          style={{
-            display: 'flex',
-            width: '100%',
-
-            gap: '24px',
-            alignItems: 'center',
-          }}
-        >
+        <div className={styles.contentContainer}>
           <WordCard
             meanings={translatedWord.meanings}
             phonetic={translatedWord.phonetic}
             word={translatedWord.word}
             phoneticLink={translatedWord.phoneticLink}
+            handleFindWord={handleTranslate}
           />
         </div>
       )}

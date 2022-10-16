@@ -12,16 +12,16 @@
 .contentContainer {
   display: grid;
   grid-template-columns: 360px 3fr;
-  border-top: 2px solid #e5e5e5;
+  border-top: 2px solid gray;
 }
 
 .contentContainer:last-child {
-  border-bottom: 2px solid #e5e5e5;
+  border-bottom: 2px solid gray;
 }
 
 .partOfSpeech {
   padding: 20px 0;
-  border-right: 2px solid #e5e5e5;
+  border-right: 2px solid gray;
   text-transform: capitalize;
   padding-left: 180px;
 }
@@ -39,4 +39,23 @@
 .headerWord {
   font-size: 48px;
   text-transform: capitalize;
+}
+
+.wordsList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 4px;
+}
+
+.wordsListContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.wordsListItem {
+  cursor: pointer;
+  color: #0096ff;
 }

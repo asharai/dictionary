@@ -4,10 +4,20 @@
   justify-content: space-between;
   padding: 0px 80px 0 40px;
   align-items: center;
-  border-bottom: 2px solid #e5e5e5;
+  border-bottom: 2px solid gray;
 }
 
 .navigation {
   display: flex;
   gap: 24px;
+}
+
+.link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.link:hover {
+  transition: 0.3s ease;
+  color: lightblue;
 }

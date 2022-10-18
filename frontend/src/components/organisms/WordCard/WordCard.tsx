@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { AudioButton } from '../../molecules/AudioButton';
 import styles from './WordCard.module.css';
 
 export interface ITranslatedWord {
@@ -47,16 +48,7 @@ export const WordCard: FC<ITranslatedWord> = ({
           <h2 className={styles.headerWord}>{word}</h2>
         </div>
 
-        <span>{phonetic}</span>
-
-        <audio
-          controls
-          style={{
-            marginTop: 20,
-          }}
-        >
-          <source src={phoneticLink} />
-        </audio>
+        <AudioButton audioSrc={phoneticLink} text={phonetic} />
       </div>
       {meanings.map(item => (
         <div className={styles.contentContainer}>

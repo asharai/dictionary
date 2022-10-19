@@ -1,5 +1,5 @@
-import { FC, useMemo, useRef } from 'react';
-
+import { FC, useState } from 'react';
+import ReactHowler from 'react-howler';
 import styles from './AudioButton.module.css';
 
 interface IAudioButtonProps {
@@ -8,30 +8,21 @@ interface IAudioButtonProps {
 }
 
 export const AudioButton: FC<IAudioButtonProps> = ({ audioSrc, text }) => {
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  console.log('changes', audioSrc);
-
-  const audioComponent = useMemo(() => {
-    return (
-      <audio
-        style={{
-          marginTop: 20,
-        }}
-        ref={audioRef}
-      >
-        <source src={audioSrc} />
-      </audio>
-    );
-  }, [audioSrc]);
+  const [isPlaying, setPlaying] = useState(false);
 
   return (
     <>
-      {audioComponent}
-      <button
-        className={styles.button}
-        onClick={() => audioRef.current?.play()}
-      >
+      <button className={styles.button} onClick={() => setPlaying(true)}>
+        <div className={styles.audioContainer}>
+          <ReactHowler
+            src={audioSrc}
+            playing={isPlaying}
+            onEnd={() => {
+              setPlaying(false);
+            }}
+          />
+        </div>
+
         <div className={styles.contentContainer}>
           <div className={styles.play}>
             <div className={styles.triangle}></div>

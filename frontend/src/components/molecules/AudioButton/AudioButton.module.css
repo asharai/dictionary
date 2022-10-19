@@ -46,3 +46,7 @@
   justify-content: center;
   border: 1px solid #333;
 }
+
+.audioContainer {
+  display: none;
+}

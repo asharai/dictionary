@@ -1,13 +1,10 @@
 import axios from '../../../axios';
 import { useCallback, useState } from 'react';
-import { Button } from '../../atoms';
-import { Input } from '../../molecules/';
-import { ITranslatedWord, WordCard } from '../../organisms/WordCard';
+
+import { ITranslatedWord, WordCard, WordSearch } from '../../organisms/';
 import styles from './MainPage.module.css';
 
 function MainPage() {
-  const [inputValue, setInputValue] = useState('');
-
   const [translatedWord, setTranslatedWord] = useState<ITranslatedWord>();
 
   const handleTranslate = useCallback(async (word: string) => {
@@ -32,15 +29,8 @@ function MainPage() {
   }, []);
 
   return (
-    <div>
-      <div className={styles.searchContainer}>
-        <Input
-          value={inputValue}
-          onChange={setInputValue}
-          placeholder="Type a word..."
-        />
-        <Button onClick={() => handleTranslate(inputValue)}>search</Button>
-      </div>
+    <div className={styles.page}>
+      <WordSearch onTranslate={handleTranslate} />
       {translatedWord && (
         <div className={styles.contentContainer}>
           <WordCard

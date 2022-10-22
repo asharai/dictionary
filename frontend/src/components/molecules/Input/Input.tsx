@@ -5,12 +5,14 @@ interface IInputProps {
   onChange: (v: string) => void;
   value?: string;
   placeholder?: string;
+  type?: 'password' | 'text';
 }
 
 export const Input: FC<IInputProps> = ({
   value = '',
   onChange,
   placeholder,
+  type = 'text',
 }) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +23,7 @@ export const Input: FC<IInputProps> = ({
 
   return (
     <input
-      type="text"
+      type={type}
       className={styles.input}
       value={value}
       onChange={handleChange}

@@ -9,11 +9,21 @@
   cursor: pointer;
   transition: 0.5s ease;
   background-color: #333;
-  border: 2px solid gray;
+
   color: #fff;
 }
 
 .button:hover {
   color: #333;
   background-color: #fff;
+}
+
+.initial {
+  border: 2px solid gray;
+}
+
+.withoutBorder {
+  border: none;
+  background-color: #fff;
+  color: #333;
 }

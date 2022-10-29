@@ -1,5 +1,5 @@
 .page {
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,6 +14,8 @@
   flex-direction: column;
   align-items: start;
   gap: 16px;
+  position: relative;
+  z-index: -1;
 }
 
 .input {
@@ -22,9 +24,9 @@
 
 .signInDescription {
   background: linear-gradient(
-    109.6deg,
-    rgba(0, 0, 0, 0.93) 11.2%,
-    rgb(63, 61, 61) 78.9%
+    180.3deg,
+    rgb(221, 221, 221) 5.5%,
+    rgb(110, 136, 161) 90.2%
   );
   height: 100vh;
   display: flex;
@@ -35,6 +37,7 @@
   width: 30%;
   position: absolute;
   left: 0;
+  z-index: 3;
 }
 
 .loginBlock {
@@ -47,53 +50,77 @@
   animation-name: moveBlockForRegister;
   animation-duration: 2s;
 
-  background: linear-gradient(to right, #434343 0%, black 100%);
+  background: linear-gradient(
+    180.3deg,
+    rgb(221, 221, 221) 5.5%,
+    rgb(110, 136, 161) 90.2%
+  );
 }
 
 .textContent {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
   z-index: 4;
   padding: 20px 40px;
+  color: #333;
+}
+
+.title {
+  color: #333;
+  font-size: 32px;
+  min-width: 224px;
+}
+
+.description {
+  color: #333;
 }
 
 .block {
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: calc(70% - 20px) 30%;
   gap: 20px;
   align-items: center;
   width: 100%;
   overflow: hidden;
-  transition: 2s;
+
+  transition: transform 2s;
   flex-shrink: 0;
   position: relative;
+  z-index: 4;
 }
 
 .blockRegister {
-  display: grid;
-  grid-template-columns: 30% 70%;
-  gap: 20px;
-  width: 100%;
-  align-items: center;
-  overflow: hidden;
-  transition: 2s;
-  flex-shrink: 0;
-  position: relative;
+  grid-template-columns: 30% calc(70% - 20px);
 }
 
 .registerText {
-  transform: translateX(400px);
-  width: 0;
-  transition: transform 0.5s, width 2s ease-in-out;
-  z-index: 1;
+  transform: translateX(-100vw);
+  position: absolute;
+  transition: transform 2s, z-index 0.5s;
+
+  z-index: -1;
 }
 
 .loginText {
-  transform: translateX(-400px);
-  width: 0;
-  transition: transform 0.5s, width 2s ease-in-out;
-  z-index: 1;
+  transform: translateX(100vw);
+  position: absolute;
+  transition: transform 2s, z-index 0.8s;
+
+  z-index: -1;
+}
+
+.btn {
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  width: 50%;
 }
 
 @keyframes moveBlockForLogin {
@@ -101,7 +128,11 @@
     left: 0%;
   }
   50% {
-    width: 45%;
+    width: 55%;
+    z-index: 10;
+  }
+  75% {
+    z-index: 3;
   }
 
   100% {
@@ -115,9 +146,14 @@
     left: 70%;
   }
   50% {
-    width: 35%;
+    width: 55%;
+    z-index: 10;
+  }
+  75% {
+    z-index: 3;
   }
   100% {
     left: 0%;
+    width: 30%;
   }
 }

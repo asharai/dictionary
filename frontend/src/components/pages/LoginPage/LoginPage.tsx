@@ -6,33 +6,20 @@ import styles from './LoginPage.module.css';
 function LoginPage() {
   const [user, setUser] = useState({ email: '', password: '', name: '' });
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  // Нужно объединить блок с тексто вместе с формой, в таком случае мы сможем наложить общую анимацию
 
   return (
     <div className={styles.page}>
       <aside
         className={`${styles.signInDescription} ${
-          mode === 'register' && styles.registerBlock
-        } ${mode === 'login' && styles.loginBlock}`}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+          mode === 'register' ? styles.registerBlock : styles.loginBlock
+        }`}
       >
-        <div
-          style={{
-            width: '50%',
-            border: '1px solid #fff',
-            borderRadius: 20,
-            height: 40,
-            marginTop: 120,
-            maxWidth: 250,
-          }}
-        ></div>
+        <div className={styles.btnBorder}></div>
       </aside>
       <div
-        className={`${styles.block} ${mode === 'register' && styles.loginText}`}
+        className={`${styles.block} ${
+          mode === 'register' ? styles.loginText : styles.activeRegisterBlock
+        } `}
       >
         <div className={styles.signIn}>
           <h1>Sign in to Dictionary</h1>
@@ -56,20 +43,20 @@ function LoginPage() {
         <div className={styles.textContent}>
           <h2 className={styles.title}>Hello Friend!</h2>
           <p className={styles.description}>
-            To keep connected with us please login with your personal info
+            Enter your details and and start journey with us
           </p>
 
           <button
             onClick={() => setMode('register')}
             className={`${styles.btn} ${styles.description}`}
           >
-            Sign In
+            Sign Up
           </button>
         </div>
       </div>
       <div
         className={`${styles.block} ${styles.blockRegister} ${
-          mode === 'login' && styles.registerText
+          mode === 'login' ? styles.registerText : styles.activeBlock
         }`}
       >
         <div className={styles.textContent}>
@@ -82,7 +69,7 @@ function LoginPage() {
             onClick={() => setMode('login')}
             className={`${styles.btn} ${styles.description}`}
           >
-            Sign Up
+            Sign In
           </button>
         </div>
         <div className={styles.signIn}>

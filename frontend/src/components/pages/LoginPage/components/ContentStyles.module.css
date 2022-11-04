@@ -1,0 +1,48 @@
+.form {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+  position: relative;
+  z-index: -1;
+}
+
+.input {
+  width: 400px;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 4;
+  padding: 20px 40px;
+  color: #333;
+}
+
+.title {
+  color: #333;
+  font-size: 32px;
+  min-width: 224px;
+}
+
+.description {
+  color: #333;
+  max-width: 250px;
+  text-align: center;
+}
+
+.btn {
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  width: 50%;
+}

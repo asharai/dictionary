@@ -25,9 +25,9 @@ mongoose
 const app = express();
 
 app.use(express.json());
-
-app.post("/auth/login", loginValidation, UserController.login);
 app.use(cors());
+app.post("/auth/login", loginValidation, UserController.login);
+
 app.post("/word", getWord);
 
 app.post("/auth/register", registerValidation, UserController.register);

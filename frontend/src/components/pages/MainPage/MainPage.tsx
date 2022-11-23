@@ -1,11 +1,22 @@
 import axios from '../../../axios';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ITranslatedWord, WordCard, WordSearch } from '../../organisms/';
 import styles from './MainPage.module.css';
+import { useUserStore } from '../../../core/store/user-store';
+import { useNavigate } from 'react-router-dom';
 
 function MainPage() {
   const [translatedWord, setTranslatedWord] = useState<ITranslatedWord>();
+
+  const { isAuthorized } = useUserStore();
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthorized === false) {
+      navigate('/login');
+    }
+  }, [isAuthorized, navigate]);
 
   const handleTranslate = useCallback(async (word: string) => {
     try {

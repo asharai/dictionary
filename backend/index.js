@@ -13,7 +13,8 @@ import { getWord } from "./controllers/PostController.js";
 
 mongoose
   .connect(
-    "mongodb+srv://asharaev:MEF8wn3Uf6mOpL0h@dictionary.ntixggo.mongodb.net/dictionary?retryWrites=true&w=majority"
+    "mongodb+srv://asharaev:RVQfDtENCsMdrzP2@dictionary.ntixggo.mongodb.net/dictionary?retryWrites=true&w=majority"
+    // "mongodb+srv://asharaev:MEF8wn3Uf6mOpL0h@dictionary.ntixggo.mongodb.net/dictionary?retryWrites=true&w=majority"
   )
   .then(() => {
     console.log("db ok");

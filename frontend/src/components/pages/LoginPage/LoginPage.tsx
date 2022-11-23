@@ -1,51 +1,61 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import axios from '../../../axios';
 import styles from './LoginPage.module.css';
 import { IRegisterUser, LoginContent, RegisterContent } from './components';
+import { IUser, useUserStore } from '../../../core/store/user-store';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [mode, setMode] = useState<'login' | 'register'>('login');
+  const { isAuthorized, logIn } = useUserStore();
 
-  const handleRegister = useCallback(async (user: IRegisterUser) => {
-    try {
-      const res = await axios({
-        method: 'post',
-        url: '/auth/register',
-        data: user,
-      });
+  const navigate = useNavigate();
 
-      if (res !== undefined) {
-        window.location.pathname = '/';
-      }
-    } catch {
-      console.log('doesnt work');
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/');
     }
-  }, []);
+  }, [isAuthorized, navigate]);
 
-  const handleLogin = useCallback(
-    async (user: Omit<IRegisterUser, 'fullName'>) => {
+  const handleAuthorization = useCallback(
+    async (
+      user: IRegisterUser | Omit<IRegisterUser, 'fullName'>,
+      path: 'register' | 'login',
+    ) => {
       try {
-        const res = await axios({
+        const res: IUser = await axios({
           method: 'post',
-          url: '/auth/login',
+          url: `/auth/${path}`,
           data: user,
         });
 
         if (res !== undefined) {
+          logIn(res);
           window.location.pathname = '/';
         }
       } catch {
         console.log('doesnt work');
       }
     },
-    [],
+    [logIn],
+  );
+
+  const handleRegister = useCallback(
+    (user: IRegisterUser) => handleAuthorization(user, 'register'),
+    [handleAuthorization],
+  );
+
+  const handleLogin = useCallback(
+    (user: Omit<IRegisterUser, 'fullName'>) =>
+      handleAuthorization(user, 'login'),
+    [handleAuthorization],
   );
 
   return (
     <div className={styles.page}>
       <aside
-        className={`${styles.signInDescription} ${
+        className={`${styles.descriptionBlock} ${
           mode === 'register' ? styles.registerBlock : styles.loginBlock
         }`}
       >

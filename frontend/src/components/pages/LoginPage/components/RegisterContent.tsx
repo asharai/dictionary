@@ -1,4 +1,7 @@
+import axios from '../../../../axios';
 import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IUser, useUserStore } from '../../../../core/store/user-store';
 import { Button } from '../../../atoms';
 import { Input } from '../../../molecules';
 import styles from './ContentStyles.module.css';
@@ -16,23 +19,38 @@ const initialUserState: IRegisterUser = {
 };
 
 interface IRegisterContentProps {
-  onLogin: (user: typeof initialUserState) => void;
   onChangeMode: (mode: 'register' | 'login') => void;
 }
 
 export const RegisterContent: FC<IRegisterContentProps> = ({
-  onLogin,
   onChangeMode,
 }) => {
   const [user, setUser] = useState(initialUserState);
+
+  const { logIn } = useUserStore();
+
+  const [hasError, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleChangeMode = () => {
     setUser(initialUserState);
     onChangeMode('login');
   };
+  const handleRegister = async () => {
+    try {
+      const res: IUser = await axios({
+        method: 'post',
+        url: '/auth/register',
+        data: user,
+      });
 
-  const handleRegister = () => {
-    onLogin(user);
+      if (res !== undefined) {
+        logIn(res);
+        navigate('/');
+      }
+    } catch {
+      setError(true);
+    }
   };
 
   return (
@@ -74,6 +92,7 @@ export const RegisterContent: FC<IRegisterContentProps> = ({
             value={user.password}
           />
         </div>
+        {hasError && <div>Validation Error</div>}
         <Button onClick={handleRegister}>Sign Up</Button>
       </div>
     </>

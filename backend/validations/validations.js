@@ -18,17 +18,17 @@ export const registerValidation = [
   body("avatarUrl", "Неверная ссылка на автарку").optional().isURL(),
 ];
 
-export const postCreateValidation = [
-  body("title", "Введите заголовок статьи")
+export const addWordValidation = [
+  body("word", "Укажите слово")
     .isLength({
       min: 3,
     })
     .isString(),
-  body("text", "Введите текст статьи")
+
+  body("token", "Укажите токен")
     .isLength({
-      min: 10,
+      min: 3,
     })
     .isString(),
-  body("tags", "Неверный формат тегов (укажите массив)").optional().isArray(),
-  body("imageUrl", "Неверная ссылка на изображение").optional().isURL(),
+  ,
 ];

@@ -15,4 +15,5 @@
   width: 100%;
   gap: 24px;
   align-items: center;
+  justify-content: center;
 }

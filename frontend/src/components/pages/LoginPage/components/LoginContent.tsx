@@ -1,4 +1,7 @@
+import axios from '../../../../axios';
 import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IUser, useUserStore } from '../../../../core/store/user-store';
 import { Button } from '../../../atoms';
 import { Input } from '../../../molecules';
 import styles from './ContentStyles.module.css';
@@ -6,23 +9,41 @@ import styles from './ContentStyles.module.css';
 const initialUserState = { email: '', password: '' };
 
 interface ILoginContentProps {
-  onLogin: (user: typeof initialUserState) => void;
   onChangeMode: (mode: 'register' | 'login') => void;
 }
 
-export const LoginContent: FC<ILoginContentProps> = ({
-  onLogin,
-  onChangeMode,
-}) => {
+export const LoginContent: FC<ILoginContentProps> = ({ onChangeMode }) => {
+  const { logIn } = useUserStore();
   const [user, setUser] = useState(initialUserState);
+  const [hasError, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleChangeMode = () => {
     setUser(initialUserState);
     onChangeMode('register');
+    setError(false);
   };
 
-  const handleLogin = () => {
-    onLogin(user);
+  const handleChangeUser = (newUser: typeof initialUserState) => {
+    setUser(newUser);
+    setError(false);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const res: IUser = await axios({
+        method: 'post',
+        url: '/auth/login',
+        data: user,
+      });
+
+      if (res !== undefined) {
+        logIn(res);
+        navigate('/');
+      }
+    } catch {
+      setError(true);
+    }
   };
 
   return (
@@ -32,18 +53,19 @@ export const LoginContent: FC<ILoginContentProps> = ({
         <div className={styles.input}>
           <Input
             placeholder="Email"
-            onChange={v => setUser({ ...user, email: v })}
+            onChange={v => handleChangeUser({ ...user, email: v })}
             value={user.email}
           />
         </div>
         <div className={styles.input}>
           <Input
             placeholder="Password"
-            onChange={v => setUser({ ...user, password: v })}
+            onChange={v => handleChangeUser({ ...user, password: v })}
             type="password"
             value={user.password}
           />
         </div>
+        {hasError && <div>Wrong Email or Password</div>}
         <Button onClick={handleLogin}>Sign In</Button>
       </div>
       <div className={styles.textContent}>

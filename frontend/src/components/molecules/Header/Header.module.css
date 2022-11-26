@@ -21,3 +21,10 @@
   transition: 0.3s ease;
   color: lightblue;
 }
+
+.btn {
+  border: none;
+  color: #fff;
+  background-color: transparent;
+  cursor: pointer;
+}

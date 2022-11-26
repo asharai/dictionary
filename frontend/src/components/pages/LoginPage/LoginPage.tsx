@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import axios from '../../../axios';
 import styles from './LoginPage.module.css';
-import { IRegisterUser, LoginContent, RegisterContent } from './components';
-import { IUser, useUserStore } from '../../../core/store/user-store';
+import { LoginContent, RegisterContent } from './components';
+import { useUserStore } from '../../../core/store/user-store';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const { isAuthorized, logIn } = useUserStore();
+  const { isAuthorized } = useUserStore();
+  const [isLoaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,42 +18,25 @@ function LoginPage() {
     }
   }, [isAuthorized, navigate]);
 
-  const handleAuthorization = useCallback(
-    async (
-      user: IRegisterUser | Omit<IRegisterUser, 'fullName'>,
-      path: 'register' | 'login',
-    ) => {
-      try {
-        const res: IUser = await axios({
-          method: 'post',
-          url: `/auth/${path}`,
-          data: user,
-        });
-
-        if (res !== undefined) {
-          logIn(res);
-          window.location.pathname = '/';
-        }
-      } catch {
-        console.log('doesnt work');
-      }
-    },
-    [logIn],
-  );
-
-  const handleRegister = useCallback(
-    (user: IRegisterUser) => handleAuthorization(user, 'register'),
-    [handleAuthorization],
-  );
-
-  const handleLogin = useCallback(
-    (user: Omit<IRegisterUser, 'fullName'>) =>
-      handleAuthorization(user, 'login'),
-    [handleAuthorization],
-  );
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 800);
+  }, []);
 
   return (
     <div className={styles.page}>
+      <div
+        style={{
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          backgroundColor: '#333',
+          zIndex: isLoaded ? 1 : 999,
+          opacity: isLoaded ? 0 : 1,
+          transition: '1s',
+        }}
+      ></div>
       <aside
         className={`${styles.descriptionBlock} ${
           mode === 'register' ? styles.registerBlock : styles.loginBlock
@@ -66,7 +49,7 @@ function LoginPage() {
           mode === 'register' ? styles.loginText : styles.activeRegisterBlock
         } `}
       >
-        <LoginContent onChangeMode={setMode} onLogin={handleLogin} />
+        <LoginContent onChangeMode={setMode} />
       </div>
 
       <div
@@ -74,7 +57,7 @@ function LoginPage() {
           mode === 'login' ? styles.registerText : styles.activeBlock
         }`}
       >
-        <RegisterContent onChangeMode={setMode} onLogin={handleRegister} />
+        <RegisterContent onChangeMode={setMode} />
       </div>
     </div>
   );

@@ -1,24 +1,18 @@
 import axios from '../../../axios';
-import { useCallback, useEffect, useState } from 'react';
-
+import { useCallback, useState } from 'react';
 import { ITranslatedWord, WordCard, WordSearch } from '../../organisms/';
+
 import styles from './MainPage.module.css';
-import { useUserStore } from '../../../core/store/user-store';
-import { useNavigate } from 'react-router-dom';
 
 function MainPage() {
   const [translatedWord, setTranslatedWord] = useState<ITranslatedWord>();
-
-  const { isAuthorized } = useUserStore();
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthorized === false) {
-      navigate('/login');
-    }
-  }, [isAuthorized, navigate]);
+  const [hasError, setError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const handleTranslate = useCallback(async (word: string) => {
+    setError(false);
+    setLoading(true);
+    setTranslatedWord(undefined);
     try {
       const res = await axios({
         method: 'post',
@@ -35,13 +29,21 @@ function MainPage() {
         phoneticLink: phonetics?.length > 0 ? phonetics[0].audio : undefined,
       });
     } catch {
-      console.log('doesnt work');
+      setError(true);
+      setTranslatedWord(undefined);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   return (
     <div className={styles.page}>
       <WordSearch onTranslate={handleTranslate} />
+      {isLoading && (
+        <div className={styles.contentContainer}>
+          <h3>Searching...</h3>
+        </div>
+      )}
       {translatedWord && (
         <div className={styles.contentContainer}>
           <WordCard
@@ -51,6 +53,11 @@ function MainPage() {
             phoneticLink={translatedWord.phoneticLink}
             handleFindWord={handleTranslate}
           />
+        </div>
+      )}
+      {hasError && (
+        <div className={styles.contentContainer}>
+          <h3>We didn't find such word</h3>
         </div>
       )}
     </div>

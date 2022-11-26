@@ -11,6 +11,7 @@ export interface IUserStore {
   isAuthorized: boolean;
   user?: IUser;
   logIn: (payload: IUser) => void;
+  logOut: () => void;
 }
 
 export const useUserStore = create<IUserStore>(set => ({

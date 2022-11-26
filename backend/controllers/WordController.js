@@ -3,7 +3,7 @@ import axios from "../axios.js";
 export const getWord = async (req, res) => {
   try {
     const response = await axios(`/${req.body.word}`);
-    console.log(response.data);
+
     return res.json({
       ...response.data,
     });

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useUserStore } from '../../../core/store/user-store';
+import { useAuthStore } from '../../../core/store/auth-store';
 import styles from './Header.module.css';
 
 export default function Header() {
-  const { isAuthorized, logOut } = useUserStore();
+  const { isAuthorized, logOut } = useAuthStore();
 
   return (
     <div className={styles.container}>

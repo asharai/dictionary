@@ -7,26 +7,24 @@ export interface IUser {
   token: string;
 }
 
-export interface IUserStore {
+export interface IAuthStore {
   isAuthorized: boolean;
-  user?: IUser;
-  logIn: (payload: IUser) => void;
+  logIn: () => void;
   logOut: () => void;
 }
 
-export const useUserStore = create<IUserStore>(set => ({
+export const useAuthStore = create<IAuthStore>(set => ({
   isAuthorized: false,
-  user: undefined,
 
-  logIn: payload =>
+  logIn: () =>
     set(() => ({
       isAuthorized: true,
-      user: payload,
     })),
 
-  logOut: () =>
-    set(() => ({
+  logOut: () => {
+    window.localStorage.removeItem('token');
+    return set(() => ({
       isAuthorized: false,
-      user: undefined,
-    })),
+    }));
+  },
 }));

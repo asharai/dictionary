@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 
 import styles from './LoginPage.module.css';
 import { LoginContent, RegisterContent } from './components';
-import { useUserStore } from '../../../core/store/user-store';
+import { useAuthStore } from '../../../core/store/auth-store';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const { isAuthorized } = useUserStore();
+  const { isAuthorized } = useAuthStore();
   const [isLoaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();

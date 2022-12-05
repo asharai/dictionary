@@ -59,3 +59,9 @@
   cursor: pointer;
   color: #0096ff;
 }
+
+.addWord {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 180px;
+}

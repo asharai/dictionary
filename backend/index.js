@@ -10,8 +10,8 @@ import checkAuth from "./utils/checkAuth.js";
 
 import * as UserController from "./controllers/UserController.js";
 
-import * as DictionaryController from "./controllers/DictionaryController";
-import { getWord } from "./controllers/WordController";
+import * as DictionaryController from "./controllers/DictionaryController.js";
+import { getWord } from "./controllers/WordController.js";
 
 mongoose
   .connect(
@@ -36,7 +36,7 @@ app.post("/word", getWord);
 app.post("/auth/register", registerValidation, UserController.register);
 app.get("/auth/me", checkAuth, UserController.getMe);
 
-app.post("/dictionary", DictionaryController.addWord);
+app.post("/dictionary", checkAuth, DictionaryController.addWord);
 // app.delete("/dictionary", DictionaryController.deleteWord);
 // app.get("/dictionary", DictionaryController.getAll);
 

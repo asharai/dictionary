@@ -1,7 +1,7 @@
 import axios from '../../../../axios';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IUser, useUserStore } from '../../../../core/store/user-store';
+import { IUser, useAuthStore } from '../../../../core/store/auth-store';
 import { Button } from '../../../atoms';
 import { Input } from '../../../molecules';
 import styles from './ContentStyles.module.css';
@@ -27,7 +27,7 @@ export const RegisterContent: FC<IRegisterContentProps> = ({
 }) => {
   const [user, setUser] = useState(initialUserState);
 
-  const { logIn } = useUserStore();
+  const { logIn } = useAuthStore();
 
   const [hasError, setError] = useState(false);
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export const RegisterContent: FC<IRegisterContentProps> = ({
       });
 
       if (res !== undefined) {
-        logIn(res);
+        logIn();
         navigate('/');
       }
     } catch {

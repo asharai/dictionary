@@ -1,6 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { Button } from '../../atoms';
 import { AudioButton } from '../../molecules/AudioButton';
+import axios from '../../../axios';
+
 import styles from './WordCard.module.css';
+import { useAuthStore } from '../../../core/store/auth-store';
 
 export interface ITranslatedWord {
   word: string;
@@ -41,6 +45,23 @@ export const WordCard: FC<ITranslatedWord> = ({
   phoneticLink,
   handleFindWord,
 }) => {
+  const [isWordAddedToDictionary, setWordAddedToDictionary] = useState(false);
+  const { isAuthorized } = useAuthStore();
+  const addWordToDictionary = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: '/dictionary',
+        data: {
+          word,
+          meaning: meanings[0] ? meanings[0].definitions[0].definition : '',
+        },
+      });
+      if (response) {
+        setWordAddedToDictionary(true);
+      }
+    } catch {}
+  };
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -49,6 +70,13 @@ export const WordCard: FC<ITranslatedWord> = ({
         </div>
 
         <AudioButton audioSrc={phoneticLink} text={phonetic} />
+      </div>
+      <div className={styles.addWord}>
+        {isWordAddedToDictionary ? (
+          <div>Word added to Dictionary</div>
+        ) : isAuthorized ? (
+          <Button onClick={addWordToDictionary}>Add word to Dictionary</Button>
+        ) : null}
       </div>
       {meanings.map(item => (
         <div className={styles.contentContainer}>

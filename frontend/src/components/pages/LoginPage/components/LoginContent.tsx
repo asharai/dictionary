@@ -1,7 +1,7 @@
 import axios from '../../../../axios';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IUser, useUserStore } from '../../../../core/store/user-store';
+import { IUser, useAuthStore } from '../../../../core/store/auth-store';
 import { Button } from '../../../atoms';
 import { Input } from '../../../molecules';
 import styles from './ContentStyles.module.css';
@@ -13,7 +13,7 @@ interface ILoginContentProps {
 }
 
 export const LoginContent: FC<ILoginContentProps> = ({ onChangeMode }) => {
-  const { logIn } = useUserStore();
+  const { logIn } = useAuthStore();
   const [user, setUser] = useState(initialUserState);
   const [hasError, setError] = useState(false);
   const navigate = useNavigate();
@@ -31,14 +31,15 @@ export const LoginContent: FC<ILoginContentProps> = ({ onChangeMode }) => {
 
   const handleLogin = async () => {
     try {
-      const res: IUser = await axios({
+      const res: { data: IUser } = await axios({
         method: 'post',
         url: '/auth/login',
         data: user,
       });
 
-      if (res !== undefined) {
-        logIn(res);
+      if (res.data !== undefined && 'token' in res.data) {
+        logIn();
+        window.localStorage.setItem('token', res.data.token);
         navigate('/');
       }
     } catch {

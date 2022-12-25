@@ -46,6 +46,7 @@ export const RegisterContent: FC<IRegisterContentProps> = ({
 
       if (res !== undefined) {
         logIn();
+        window.localStorage.setItem('token', res.token);
         navigate('/');
       }
     } catch {

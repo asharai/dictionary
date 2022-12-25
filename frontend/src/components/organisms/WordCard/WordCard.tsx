@@ -47,6 +47,7 @@ export const WordCard: FC<ITranslatedWord> = ({
 }) => {
   const [isWordAddedToDictionary, setWordAddedToDictionary] = useState(false);
   const { isAuthorized } = useAuthStore();
+
   const addWordToDictionary = async () => {
     try {
       const response = await axios({
